@@ -18,7 +18,7 @@
            [vb, ib] =  backward_wave(v0, omega, phi, z0, vp, z(i), t(j));
            % Now, add matrix elements together
            vs(i,j) = vf+vb;
-           is(i,j) = i_f+ib;
+           is(i,j) = i_f-ib;
        end
    end
    
