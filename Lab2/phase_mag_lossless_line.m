@@ -7,30 +7,44 @@
 
 %Constants
 Z0 = 100;  % Ohms
-Gamma = 0;
-gamma = -2*pi*j;  % rad/m
+Gammaa = 0;
+
+gamma = -2*pi*1i;  % rad/m
 V0 = 1; % Volts
-z = linspace(-2,0,1000);
+z = linspace(-2,0,200);
 
 % Define empty voltage and current arrays
-Vs = zeros(length(z));
-Is = zeros(length(z));
+%a
+Vsa = zeros(1,length(z));
+Isa = zeros(1,length(z));
+%for ratio
+Vs = zeros(1,length(z));
+Is = zeros(1,length(z));
 
 % Get phasors (for all of z)
+
 for i =1:length(z)
-    [Vs(i), Is(i)] = linephasor(V0,Gamma,gamma,Z0,z(i));
+    [Vs(i), Is(i)] = linephasor(V0,Gammaa,gamma,Z0,z(i));
     
     % Get the magnitude of the phasors
-    Vs(i) = abs(Vs(i));
-    Is(i) = abs(Is(i));
+    Vsa(i) = abs(Vs(i));
+    Isa(i) = 100*abs(Is(i));
+   
 end
 
+%v(z=0)/i(z=0)
+vi_ratio = Vs(length(z))/Is(length(z))
+%s = maxabs vs / minabs vs
+s = max(Vsa)/min(Vsa)
 %Plotting the phasor magnitude:
 for k=1:length(z)
-plot(z, Vs(k),'b'); hold on;
-    plot(z, 100*Is(k),'r'); hold off;
+    plot(z, Vsa(k, :),'b'); hold on;
+    plot(z, Isa(k, :),'r'); hold off;
     xlabel('z [m]');
     ylabel('V(z)[V]');
-    title('Magnitude of the voltage and current phasors'); legend('V(z)',' I(z)');
+    title('Magnitude of the voltage and current phasors a'); legend('V(z)',' I(z)');
     axis([-2 0 -1.25 1.25]);
 end
+
+Movie(M)
+
